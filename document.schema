@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Document Schema",
+
+  "definitions": {
+    "sectionText": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        }
+      },
+      "required": ["body"]
+    }
+  },
+
+  "type": "object",
+  "properties": {
+    "rev": {
+      "type": "string",
+      "format": "revision"
+    },
+    "contentType": {
+      "enum": ["application/x.swiki.document+json;v=1"],
+      "default": "application/x.swiki.document+json;v=1"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024
+    },
+    "sections": {
+      "description": "Collection of document sections",
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {"$ref": "#/definitions/sectionText"}
+        ]
+      }
+    },
+    "attributes": {
+      "description": "Collection of document attributes",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "anyOf": [
+              {"$ref": "#/definitions/attributeText#"},
+              {"$ref": "#/definitions/attributeDate#"},
+              {"$ref": "#/definitions/attributeNumber#"},
+              {"$ref": "#/definitions/attributeCurrency#"}
+            ]
+          }
+        },
+        "required": ["name", "value"]
+      }
+    },
+    "references": {
+      "description": "Collection of document references",
+      "type": "array",
+      "items": {
+        "$ref": "DocumentReference#"
+      }
+    }
+  },
+  "required": ["title", "summary", "rev"],
+  "additionalProperties": false
+}
