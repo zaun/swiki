@@ -1,0 +1,22 @@
+{
+  "id": "AttributeDecimal#",
+  "title": "Decimal type attribute schema",
+  "type": "object",
+  "properties": {
+    "_href": {
+      "type": "string",
+      "format": "url"
+    },
+
+    "type": {
+      "enum": ["DECIMAL"]
+    },
+
+    "value": {
+      "type": "string",
+      "description": "numbers only",
+      "pattern": "^[+-]?(\\d*\\.)?\\d+$"
+    }
+  },
+  "required": ["name", "type", "value"]
+}

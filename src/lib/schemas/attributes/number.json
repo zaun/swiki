@@ -1,0 +1,26 @@
+{
+  "id": "AttributeNumber#",
+  "title": "Number type attribute schema",
+  "type": "object",
+  "properties": {
+    "_href": {
+      "type": "string",
+      "format": "url"
+    },
+
+    "name": {
+      "type": "string"
+    },
+
+    "type": {
+      "enum": ["NUMBER"]
+    },
+
+    "value": {
+      "type": "string",
+      "description": "numbers only",
+      "pattern": "^[+-]?\\d+$"
+    }
+  },
+  "required": ["name", "type", "value"]
+}

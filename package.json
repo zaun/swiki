@@ -1,0 +1,22 @@
+{
+  "name": "swiki",
+  "description": "A structured wiki",
+  "author": "Justin Zaun <justn.zaun@gmail.comcom>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zaun/swiki"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "api-gateway-server": "https://github.com/TeamPraxis/api-gateway-server.git",
+    "gulp": "*",
+    "gulp-clean": "*",
+    "gulp-copy": "*",
+    "gulp-load-plugins": "*",
+    "gulp-install": "*",
+    "gulp-replace": "*",
+    "gulp-zip": "*"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,26 @@
+{
+  "id": "AttributeHexColor#",
+  "title": "Hex color type attribute schema",
+  "type": "object",
+  "properties": {
+    "_href": {
+      "type": "string",
+      "format": "url"
+    },
+
+    "name": {
+      "type": "string"
+    },
+
+    "type": {
+      "enum": ["HEXCOLOR"]
+    },
+
+    "value": {
+      "type": "string",
+      "description": "Pound sign followed by 3 or 6 hex digits",
+      "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+    }
+  },
+  "required": ["name", "type", "value"]
+}

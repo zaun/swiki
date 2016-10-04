@@ -1,0 +1,15 @@
+{
+  "id": "Attribute#",
+  "title": "Attribute schema",
+  "type": "object",
+  "anyOf": [
+    { "$ref": "AttributeCurrency#" },
+    { "$ref": "AttributeDate#" },
+    { "$ref": "AttributeDecimal#" },
+    { "$ref": "AttributeHex#" },
+    { "$ref": "AttributeHexColor#" },
+    { "$ref": "AttributeMonth#" },
+    { "$ref": "AttributeNumber#" },
+    { "$ref": "AttributeText#" }
+  ]
+}

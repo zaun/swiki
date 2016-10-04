@@ -1,0 +1,64 @@
+
+{
+  "id": "AttributeCurrency#",
+  "title": "Currency type attribute schema",
+  "type": "object",
+  "properties": {
+    "_href": {
+      "type": "string",
+      "format": "url"
+    },
+
+    "name": {
+      "type": "string"
+    },
+
+    "type": {
+      "enum": ["CURRENCY"]
+    },
+
+    "value": {
+      "type": "string",
+      "pattern": "^[+-]?(\\d+\\.)?\\d+$"
+    },
+
+    "currency": {
+      "enum": [
+        "ADF", "ADP", "AED", "AFA", "AFN", "ALL", "AMD", "ANG", "AOA", "AOK", "AON", "AOR", "ARA", "ARL", "ARP", "ARS", "ATS", "AUD", "AWG", "AZM", "AZN",
+        "BAD", "BAM", "BBD", "BDT", "BEF", "BGL", "BGN", "BHD", "BIF", "BMD", "BND", "BOB", "BOP", "BOV", "BRB", "BRC", "BRE", "BRL", "BRN", "BRR", "BSD", "BTN", "BWP", "BYB", "BYN", "BYR", "BZD",
+        "CAD", "CDF", "CHE", "CHF", "CHW", "CLE", "CLF", "CLP", "CNY", "COP", "COU", "CRC", "CSD", "CSK", "CUC", "CUP", "CVE", "CYP", "CZK",
+        "DDM", "DEM", "DJF", "DKK", "DOP", "DZD",
+        "ECS", "ECV", "EEK", "EGP", "ERN", "ESA", "ESB", "ESP", "ETB", "EUR",
+        "FIM", "FJD", "FKP", "FRF",
+        "GBP", "GEL", "GHC", "GHS", "GIP", "GMD", "GNE", "GNF", "GQE", "GRD", "GTQ", "GWP",
+        "HKD", "HNL", "HRD", "HRK", "HTG", "HUF",
+        "IDR", "IEP", "ILP", "ILR", "ILS", "INR", "IQD", "IRR", "ISJ", "ISK", "ITL",
+        "JMD", "JOD", "JPY",
+        "KES", "KGS", "KHR", "KMF", "KPW", "KRW", "KWD", "KYD", "KZT",
+        "LAK", "LBP", "LKR", "LBP", "LKR", "LRD", "LSL", "LTL", "LUF", "LVL", "LYD",
+        "MAD", "MAF", "MCF", "MDL", "MGA", "MGF", "MKD", "MKN", "MLV", "MMK", "MNT", "MOP", "MRO", "MTL", "MUR", "MVQ", "MVR", "MWK", "MXN", "MXP", "MXV", "MYR", "MZM", "MZN",
+        "NAD", "NFD", "NGN", "NIO", "NLG", "NOK", "NPR", "NZD",
+        "OMR",
+        "PAB", "PEH", "PEI", "PEN", "PGK", "PHP", "PKR", "PLN", "PLZ", "PTE", "PTP", "PYG",
+        "QAR",
+        "ROL", "RON", "RSD", "RUB", "RUR", "RWF",
+        "SAR", "SBD", "SCR", "SDD", "SDG", "SDP", "SEK", "SGD", "SHP", "SIT", "SKK", "SLL", "SML", "SOS", "SRG", "SRD", "SSP", "STD", "SUR", "SVC", "SYP", "SZL",
+        "THB", "TJR", "TJS", "TMM", "TMT", "TND", "TNF", "TOP", "TPE", "TRL", "TRY", "TTD", "TWD", "TZS",
+        "UAH", "UAK", "UGX", "UGS", "USD", "USN", "USS", "UYI", "UYN", "UYP", "UYU", "UZS",
+        "VAL", "VEB", "VEF", "VND", "VUV",
+        "WST",
+        "XAF", "XAG", "XAU", "XBA", "XBB", "XBC", "XBD", "XBT", "XCD", "XDR", "XFO", "XFU", "XOK", "XPD", "XPF", "XPT", "XSU", "XTS", "XUA",
+        "YDD", "YER", "YUD", "YUG", "YUM", "YUN", "YUO", "YUR",
+        "ZAL", "ZAR", "ZMK", "ZMW", "ZRZ", "ZWC", "ZWD", "ZWL", "ZWN", "ZWR"
+      ],
+      "description": "iso4217"
+    },
+
+    "asOf": {
+      "type": "string",
+      "description": "iso8601",
+      "pattern": "^([\\+-]?\\d{4}(?!\\d{2}\\b))((-?)((0[1-9]|1[0-2])(\\3([12]\\d|0[1-9]|3[01]))?|W([0-4]\\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\\d|[12]\\d{2}|3([0-5]\\d|6[1-6])))([T\\s]((([01]\\d|2[0-3])((:?)[0-5]\\d)?|24\\:?00)([\\.,]\\d+(?!:))?)?(\\17[0-5]\\d([\\.,]\\d+)?)?([zZ]|([\\+-])([01]\\d|2[0-3]):?([0-5]\\d)?)?)?)?$"
+    }
+  },
+  "required": ["name", "type", "value", "currency"]
+}

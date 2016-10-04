@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "async": "*",
+    "dynamoose": "*",
+    "jayschema": "*",
+    "lodash": "*",
+    "uuid": "*"
+  }
+}

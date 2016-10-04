@@ -1,0 +1,25 @@
+{
+  "id": "AttributeText#",
+  "title": "Text type attribute schema",
+  "type": "object",
+  "properties": {
+    "_href": {
+      "type": "string",
+      "format": "url"
+    },
+
+    "name": {
+      "type": "string"
+    },
+
+    "type": {
+      "enum": ["TEXT"]
+    },
+
+    "value": {
+      "type": "string",
+      "description": "text"
+    }
+  },
+  "required": ["name", "type", "value"]
+}

@@ -1,0 +1,39 @@
+{
+  "id": "Document#",
+  "title": "Document schema",
+  "type": "object",
+  "properties": {
+    "_href": {
+      "type": "string",
+      "format": "url"
+    },
+
+    "title": {
+      "type": "string"
+    },
+
+    "abstract": {
+      "type": "string"
+    },
+
+    "attributes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "Attribute#" }
+    },
+
+    "sections": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "Section#" }
+    },
+
+    "tags": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": [ { "type": "string" } ],
+      "minItems": 1
+    }
+  },
+  "required": [ "title", "abstract", "tags" ]
+}

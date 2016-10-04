@@ -1,0 +1,26 @@
+{
+  "id": "AttributeHex#",
+  "title": "Hex type attribute schema",
+  "type": "object",
+  "properties": {
+    "_href": {
+      "type": "string",
+      "format": "url"
+    },
+
+    "name": {
+      "type": "string"
+    },
+
+    "type": {
+      "enum": ["HEX"]
+    },
+
+    "value": {
+      "type": "string",
+      "description": "hex digits only",
+      "pattern": "^(0[xX])?[0-9a-fA-F]+$"
+    }
+  },
+  "required": ["name", "type", "value"]
+}

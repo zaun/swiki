@@ -1,0 +1,52 @@
+{
+  "id": "AttributeMonth#",
+  "title": "Month type attribute schema",
+  "type": "object",
+  "properties": {
+    "_href": {
+      "type": "string",
+      "format": "url"
+    },
+
+    "name": {
+      "type": "string"
+    },
+
+    "type": {
+      "enum": ["MONTH"]
+    },
+
+    "calendarType": {
+      "enum": [
+        "ARMENIAN", "ASSYRIAN", "ASTRONOMICAL", "ATTIC",
+        "BADI", "BENGALI", "NULGAR", "BYZANTINE",
+        "CHINESE-DAMING", "CHINESE-WUYIN", "CHULA", "CIOTIC",
+        "DISCORDIAN", "DREAMSPELL",
+        "EGYPTIAN", "ETHIOPIAN",
+        "FIVE-YIN-YANG", "FLORENTINE", "FOR-SEASONS", "FRENCH-REPUBLIC",
+        "GAULISH", "GENESIS", "GEZER", "GREGORIAN",
+        "HAAB", "HANKE-HENRY", "HEBREW", "HOLOCENE",
+        "IGBO", "INCAN", "INDIAN-NATIONAL", "INTERNATIONAL-FIEXED", "INVARIABLE", "ISLAMIC",
+        "JALALI", "JAPANESE", "JULIAN",
+        "MINGUO", "MUISCA",
+        "NANAKSHAHI", "NEPAL", "NEPALI",
+        "OLD-ICELANDIC", "OLD-PERSIAN",
+        "PANCRONOMETER", "PATAPHYSICAL", "PAWUKON", "PAX", "PENTECONTAD", "PISAN", "POSITIVIST", "PTOLEMAIC", "PYU",
+        "QIN", "QUMRAN", "REVICED-JULIAN", "ROMAN-REPUBLICAN", "RUMI", "RUNIC",
+        "SEASONAL-CONSTITUTION", "SEASONAL-INSTRUCTION", "SELEUCID", "SIX-ANCIENT-CALENDARS", "SOLAR-HIJRI", "SOVIET", "SWEDISH", "SYMMETRY454",
+        "TAMIL", "THAI-LUNAR", "THAI-SOLAR", "TIBETAN", "TONALPOHUALLI", "TRANQUILITY", "TZOLKIN",
+        "UMMA", "WORLD", "WOLD-SEASON",
+        "XIUHPOHUALLI",
+        "ZOROASTRIAN"
+      ],
+      "description": "The type of calendar (https://en.wikipedia.org/wiki/List_of_calendars)",
+      "default": "JULIAN"
+    },
+
+    "value": {
+      "type": "integer",
+      "description": "The month number of the year"
+    }
+  },
+  "required": ["name", "type", "value"]
+}

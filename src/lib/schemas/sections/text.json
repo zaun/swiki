@@ -1,0 +1,25 @@
+{
+  "id": "SectionText#",
+  "title": "Text type section schema",
+  "type": "object",
+  "properties": {
+    "_href": {
+      "type": "string",
+      "format": "url"
+    },
+
+    "title": {
+      "type": "string"
+    },
+
+    "type": {
+      "enum": ["TEXT"]
+    },
+
+    "dataString": {
+      "type": "string",
+      "description": "text"
+    }
+  },
+  "required": ["title", "type", "dataString"]
+}

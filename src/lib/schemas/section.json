@@ -1,0 +1,8 @@
+{
+  "id": "Section#",
+  "title": "Section schema",
+  "type": "object",
+  "anyOf": [
+    { "$ref": "SectionText#" }
+  ]
+}
