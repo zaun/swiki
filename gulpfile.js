@@ -30,13 +30,13 @@ gulp.task('cloudformation', ['clean'], function(){
  * Update lambda function
  **/
 gulp.task('updateCopy', ['clean'], function () {
-  return gulp.src('src/update/**/*')
-    .pipe(plugins.copy('build', { prefix: 1 }));
+  return gulp.src('src/lambda/update/**/*')
+    .pipe(plugins.copy('build', { prefix: 2 }));
 });
 
 gulp.task('updateLibCopy', ['updateCopy'], function () {
-  return gulp.src('src/lib/**/*')
-    .pipe(plugins.copy('build/update', { prefix: 1 }));
+  return gulp.src('src/lambda/lib/**/*')
+    .pipe(plugins.copy('build/update', { prefix: 2 }));
 });
 
 gulp.task('updateInstall', ['updateCopy', 'updateLibCopy'], function () {
@@ -55,13 +55,13 @@ gulp.task('updateZip', ['updateInstall'], function () {
  * Document lambda function
  **/
 gulp.task('documentCopy', ['clean'], function () {
-  return gulp.src('src/document/**/*')
-    .pipe(plugins.copy('build', { prefix: 1 }));
+  return gulp.src('src/lambda/document/**/*')
+    .pipe(plugins.copy('build', { prefix: 2 }));
 });
 
 gulp.task('documentLibCopy', ['documentCopy'], function () {
-  return gulp.src('src/lib/**/*')
-    .pipe(plugins.copy('build/document', { prefix: 1 }));
+  return gulp.src('src/lambda/lib/**/*')
+    .pipe(plugins.copy('build/document', { prefix: 2 }));
 });
 
 gulp.task('documentInstall', ['documentCopy', 'documentLibCopy'], function () {
@@ -80,13 +80,13 @@ gulp.task('documentZip', ['documentInstall'], function () {
  * History lambda function
  **/
 gulp.task('historyCopy', ['clean'], function () {
-  return gulp.src('src/history/**/*')
-    .pipe(plugins.copy('build', { prefix: 1 }));
+  return gulp.src('src/lambda/history/**/*')
+    .pipe(plugins.copy('build', { prefix: 2 }));
 });
 
 gulp.task('historyLibCopy', ['historyCopy'], function () {
-  return gulp.src('src/lib/**/*')
-    .pipe(plugins.copy('build/history', { prefix: 1 }));
+  return gulp.src('src/lambda/lib/**/*')
+    .pipe(plugins.copy('build/history', { prefix: 2 }));
 });
 
 gulp.task('historyInstall', ['historyCopy', 'historyLibCopy'], function () {
@@ -99,6 +99,41 @@ gulp.task('historyZip', ['historyInstall'], function () {
   return gulp.src('build/history/**/*')
     .pipe(plugins.zip('history.zip'))
     .pipe(gulp.dest('build'));
+});
+
+/**
+ * Client build
+ **/
+gulp.task('clientBower', ['clean'], function () {
+  return plugins.bower({
+    cwd: 'src/client',
+    directory: '../../build/bower'
+  });
+});
+
+gulp.task('clientCopy', ['clientBower'], function () {
+  return gulp.src([
+      'build/bower/es6-promise/es6-promise.min.js',
+      'build/bower/fetch/fetch.js',
+      'build/bower/lodash/dist/lodash.min.js',
+      'build/bower/riot/riot.min.js',
+      'build/bower/riot-ui/dist/riot-ui.js'
+    ])
+    .pipe(plugins.copy('build/client/js', { prefix: 4 }));
+});
+
+gulp.task('clientJade', ['clean'], function () {
+  return gulp.src('src/client/jade/**/*')
+    .pipe(plugins.pug({
+      'API_URL': 'https://lf3p07bvm8.execute-api.us-west-2.amazonaws.com/swikiTesting/'
+    }))
+    .pipe(gulp.dest('build/client/'));
+});
+
+gulp.task('clientJavascript', ['clean'], function () {
+  return gulp.src('src/client/javascript/**/*')
+    .pipe(plugins.concat('swiki.js'))
+    .pipe(gulp.dest('build/client/js/'));
 });
 
 gulp.task('runDevelopment', function (done) {
@@ -121,10 +156,11 @@ gulp.task('runDevelopment', function (done) {
   });
 });
 
-gulp.task('build', ['clean', 'cloudformation', 'buildDocment', 'buildUpdate', 'buildHistory']);
+gulp.task('build', ['clean', 'cloudformation', 'buildDocment', 'buildUpdate', 'buildHistory', 'buildClient']);
+gulp.task('buildClient', ['clientCopy', 'clientJade', 'clientJavascript']);
 gulp.task('buildDocment', ['documentCopy', 'documentLibCopy', 'documentInstall', 'documentZip']);
 gulp.task('buildHistory', ['historyCopy', 'historyLibCopy', 'historyInstall', 'historyZip']);
 gulp.task('buildUpdate', ['updateCopy', 'updateLibCopy', 'updateInstall', 'updateZip']);
 
 
-gulp.task('default', ['run']);
+gulp.task('default', ['build']);

@@ -1,0 +1,10 @@
+{
+  "name": "swiki client",
+  "dependencies": {
+    "es6-promise": "4.0.5",
+    "fetch": "0.11.1",
+    "lodash": "4.16.3",
+    "riot": "v3.0.0-alpha.10",
+    "riot-ui": "*"
+  }
+}

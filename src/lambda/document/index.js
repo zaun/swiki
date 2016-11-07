@@ -23,7 +23,11 @@ exports.handler = function (event, context) {
   var done = function (status, body) {
     context.succeed({
       statusCode: status,
-      headers: {},
+      headers: {
+        'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': '*'
+      },
       body: _.isObject(body) ? JSON.stringify(body, null, 2) : body
     });
   };

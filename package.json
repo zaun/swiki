@@ -11,11 +11,15 @@
   "devDependencies": {
     "api-gateway-server": "https://github.com/TeamPraxis/api-gateway-server.git",
     "gulp": "*",
+    "gulp-bower": "*",
     "gulp-clean": "*",
+    "gulp-concat": "*",
     "gulp-copy": "*",
     "gulp-load-plugins": "*",
     "gulp-install": "*",
+    "gulp-pug": "*",
     "gulp-replace": "*",
+    "gulp-uglify": "*",
     "gulp-zip": "*"
   },
   "license": "MIT"
