@@ -2,6 +2,28 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description" : "API for swiki",
 
+  "Parameters": {
+    "DomainName": {
+      "Type" : "String",
+      "Description" : "The DNS name of an Amazon Route 53 hosted zone e.g. server.com",
+      "AllowedPattern" : "(?!-)[a-zA-Z0-9-.]{1,63}(?<!-)",
+      "ConstraintDescription" : "must be a valid DNS zone name."
+    }
+  },
+
+  "Mappings" : {
+    "RegionMap" : {
+      "us-east-1" : { "S3HostedZoneId" : "Z3AQBSTGFYJSTF", "S3WebsiteEndpoint" : "s3-website-us-east-1.amazonaws.com" },
+      "us-west-1" : { "S3HostedZoneId" : "Z2F56UZL2M1ACD", "S3WebsiteEndpoint" : "s3-website-us-west-1.amazonaws.com" },
+      "us-west-2" : { "S3HostedZoneId" : "Z3BJ6K6RIION7M", "S3WebsiteEndpoint" : "s3-website-us-west-2.amazonaws.com" },
+      "eu-west-1" : { "S3HostedZoneId" : "Z1BKCTXD74EZPE", "S3WebsiteEndpoint" : "s3-website-eu-west-1.amazonaws.com" },
+      "ap-southeast-1" : { "S3HostedZoneId" : "Z3O0J2DXBE1FTB", "S3WebsiteEndpoint" : "s3-website-ap-southeast-1.amazonaws.com" },
+      "ap-southeast-2" : { "S3HostedZoneId" : "Z1WCIGYICN2BYD", "S3WebsiteEndpoint" : "s3-website-ap-southeast-2.amazonaws.com" },
+      "ap-northeast-1" : { "S3HostedZoneId" : "Z2M4EHUR26P7ZW", "S3WebsiteEndpoint" : "s3-website-ap-northeast-1.amazonaws.com" },
+      "sa-east-1" : { "S3HostedZoneId" : "Z31GFT0UA1I2HV", "S3WebsiteEndpoint" : "s3-website-sa-east-1.amazonaws.com" }
+    }
+  },
+
   "Resources": {
     "LambdaExecutionRole": {
       "Type": "AWS::IAM::Role",
@@ -96,7 +118,7 @@
         "Handler": "index.handler",
         "MemorySize": 128,
         "Role": { "Fn::GetAtt": ["LambdaExecutionRole", "Arn" ] },
-        "Runtime": "nodejs",
+        "Runtime": "nodejs4.3",
         "Timeout": 30
       }
     },
@@ -111,7 +133,7 @@
         "Handler": "index.handler",
         "MemorySize": 128,
         "Role": { "Fn::GetAtt": ["LambdaExecutionRole", "Arn" ] },
-        "Runtime": "nodejs",
+        "Runtime": "nodejs4.3",
         "Timeout": 30
       }
     },
@@ -126,7 +148,7 @@
         "Handler": "index.handler",
         "MemorySize": 128,
         "Role": { "Fn::GetAtt": ["LambdaExecutionRole", "Arn" ] },
-        "Runtime": "nodejs",
+        "Runtime": "nodejs4.3",
         "Timeout": 30
       }
     },
@@ -147,6 +169,76 @@
         "RestApiId": { "Ref": "APIGateway" },
         "Description": "Deploy for testing",
         "StageName": "swikiTesting"
+      }
+    },
+
+    "WebsiteBucket" : {
+      "Type" : "AWS::S3::Bucket",
+      "Properties" : {
+        "BucketName": {"Ref":"DomainName"},
+        "AccessControl" : "PublicRead",
+        "WebsiteConfiguration" : {
+          "IndexDocument" : "index.html",
+          "ErrorDocument" : "404.html"
+        }
+      },
+      "DeletionPolicy" : "Retain"
+    },
+
+    "WebsiteBucketPolicy" : {
+      "Type" : "AWS::S3::BucketPolicy",
+      "Properties" : {
+        "Bucket" : {"Ref" : "WebsiteBucket"},
+        "PolicyDocument": {
+          "Statement": [{
+    	      "Action": [ "s3:GetObject" ],
+    	      "Effect": "Allow",
+    	      "Resource": { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "WebsiteBucket" } , "/*" ]]},
+    	      "Principal": "*"
+          }]
+        }
+      }
+    },
+
+    "DNS": {
+      "Type": "AWS::Route53::HostedZone",
+      "Properties": {
+        "HostedZoneConfig": {
+          "Comment": { "Fn::Join" : ["", ["Hosted zone for ", { "Ref" : "DomainName" } ]]}
+        },
+        "Name": { "Ref" : "DomainName" },
+        "HostedZoneTags" : [{
+          "Key": "Application",
+          "Value": "Blog"
+        }]
+      }
+    },
+
+    "DNSRecord": {
+      "Type": "AWS::Route53::RecordSetGroup",
+      "Properties": {
+        "HostedZoneName": {
+            "Fn::Join": [ "", [ { "Ref": "DomainName" }, "." ]]
+        },
+        "Comment": "Zone records.",
+        "RecordSets": [
+          {
+            "Name": { "Ref": "DomainName" },
+            "Type": "A",
+            "AliasTarget": {
+              "HostedZoneId": { "Fn::FindInMap" : [ "RegionMap", { "Ref" : "AWS::Region" }, "S3HostedZoneId" ]},
+              "DNSName": { "Fn::FindInMap" : [ "RegionMap", { "Ref" : "AWS::Region" }, "S3WebsiteEndpoint" ]}
+            }
+          },
+          {
+            "Name": { "Fn::Join" : ["", ["www.", { "Ref" : "DomainName" }]]},
+            "Type": "CNAME",
+            "TTL" : "900",
+            "ResourceRecords" : [
+              {"Fn::GetAtt":["WebsiteBucket", "DomainName"]}
+            ]
+          }
+        ]
       }
     }
   },
@@ -175,6 +267,10 @@
     "LambdaFunctionHistoryArn": {
       "Value": { "Fn::GetAtt": ["LambdaFunctionHistory", "Arn" ] },
       "Description": "The ARN of the lambda function."
+    },
+    "WebsiteURL": {
+      "Value": { "Fn::GetAtt": ["WebsiteBucket", "WebsiteURL" ] },
+      "Description": "URL for website hosted on S3"
     }
   }
 }
